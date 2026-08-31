@@ -11,8 +11,11 @@ disabled_rules:
   - opening_brace
 
 excluded:
-  - .build
-  - .swiftpm
+  # Glob, not a plain path: `swift test` creates WhiskyKit/.build, and linting
+  # a dependency's source is 76 violations of someone else's style.
+  - "**/.build"
+  - "**/.swiftpm"
+  - "**/DerivedData"
 
 # Thresholds below were implicit defaults. They are stated explicitly because
 # swift-format's wrapping changes line counts, and a silent default is a trap.

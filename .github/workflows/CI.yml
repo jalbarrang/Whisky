@@ -1,0 +1,44 @@
+name: CI
+
+concurrency:
+  group: ci-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Verify
+    # macos-26 runners are arm64. Whisky only supports Apple Silicon, so an Intel
+    # runner would compile the code without proving anything about the real target.
+    runs-on: macos-26
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Report toolchain
+        run: |
+          xcodebuild -version
+          swift --version
+
+      # SwiftLint tracks the latest release here rather than a pin. A SwiftLint
+      # release can therefore turn CI red on a PR that changed nothing; when that
+      # happens, fix the new violations rather than pinning the tool backwards.
+      - name: Install check tools
+        run: brew install swiftlint xcbeautify
+
+      - name: Cache SwiftPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: WhiskyKit/.build
+          key: spm-${{ runner.os }}-${{ hashFiles('WhiskyKit/Package.resolved') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      # The same script contributors run locally. If this passes on your machine
+      # it passes here, and vice versa. Keep the logic in the script, not in YAML.
+      - name: Verify
+        run: ./scripts/verify.sh
