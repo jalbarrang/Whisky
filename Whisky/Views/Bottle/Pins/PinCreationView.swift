@@ -42,9 +42,11 @@ struct PinCreationView: View {
                 ) {
                     let panel = NSOpenPanel()
                     panel.canChooseFiles = true
-                    panel.allowedContentTypes = [UTType.exe,
-                                                 UTType(exportedAs: "com.microsoft.msi-installer"),
-                                                 UTType(exportedAs: "com.microsoft.bat")]
+                    panel.allowedContentTypes = [
+                        UTType.exe,
+                        UTType(exportedAs: "com.microsoft.msi-installer"),
+                        UTType(exportedAs: "com.microsoft.bat")
+                    ]
                     panel.directoryURL = newPinURL ?? bottle.url.appending(path: "drive_c")
                     panel.canChooseDirectories = false
                     panel.allowsMultipleSelection = false
@@ -81,8 +83,7 @@ struct PinCreationView: View {
                 guard let newValue = newValue else { return }
 
                 // Only reset newPinName if the textbox hasn't been modified
-                if newPinName.isEmpty ||
-                    newPinName == oldValue?.deletingPathExtension().lastPathComponent {
+                if newPinName.isEmpty || newPinName == oldValue?.deletingPathExtension().lastPathComponent {
 
                     newPinName = newValue.deletingPathExtension().lastPathComponent
                 }

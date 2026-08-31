@@ -53,9 +53,10 @@ struct EnvironmentArgView: View {
     var body: some View {
         Section(isExpanded: $isExpanded) {
             List(environmentKeys, id: \.id) { key in
-                KeyItem(focus: _focus,
-                        environmentKeys: $environmentKeys,
-                        key: key)
+                KeyItem(
+                    focus: _focus,
+                    environmentKeys: $environmentKeys,
+                    key: key)
             }
             .alternatingRowBackgrounds(.enabled)
             .onAppear {

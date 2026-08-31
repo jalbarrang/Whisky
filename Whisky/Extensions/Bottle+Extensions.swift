@@ -33,11 +33,11 @@ extension Bottle {
             let cmd = "eval \\\"$(\\\"\(whiskyCmd)\\\" shellenv \\\"\(settings.name)\\\")\\\""
 
             let script = """
-            tell application "Terminal"
-            activate
-            do script "\(cmd)"
-            end tell
-            """
+                tell application "Terminal"
+                activate
+                do script "\(cmd)"
+                end tell
+                """
 
             Task.detached(priority: .userInitiated) {
                 var error: NSDictionary?
@@ -55,14 +55,16 @@ extension Bottle {
 
     @discardableResult
     func getStartMenuPrograms() -> [Program] {
-        let globalStartMenu = url
+        let globalStartMenu =
+            url
             .appending(path: "drive_c")
             .appending(path: "ProgramData")
             .appending(path: "Microsoft")
             .appending(path: "Windows")
             .appending(path: "Start Menu")
 
-        let userStartMenu = url
+        let userStartMenu =
+            url
             .appending(path: "drive_c")
             .appending(path: "users")
             .appending(path: "crossover")
@@ -74,18 +76,20 @@ extension Bottle {
 
         var startMenuPrograms: [Program] = []
         var linkURLs: [URL] = []
-        let globalEnumerator = FileManager.default.enumerator(at: globalStartMenu,
-                                                              includingPropertiesForKeys: [.isRegularFileKey],
-                                                              options: [.skipsHiddenFiles])
+        let globalEnumerator = FileManager.default.enumerator(
+            at: globalStartMenu,
+            includingPropertiesForKeys: [.isRegularFileKey],
+            options: [.skipsHiddenFiles])
         while let url = globalEnumerator?.nextObject() as? URL {
             if url.pathExtension == "lnk" {
                 linkURLs.append(url)
             }
         }
 
-        let userEnumerator = FileManager.default.enumerator(at: userStartMenu,
-                                                            includingPropertiesForKeys: [.isRegularFileKey],
-                                                            options: [.skipsHiddenFiles])
+        let userEnumerator = FileManager.default.enumerator(
+            at: userStartMenu,
+            includingPropertiesForKeys: [.isRegularFileKey],
+            options: [.skipsHiddenFiles])
         while let url = userEnumerator?.nextObject() as? URL {
             if url.pathExtension == "lnk" {
                 linkURLs.append(url)
@@ -96,9 +100,11 @@ extension Bottle {
 
         for link in linkURLs {
             do {
-                if let program = ShellLinkHeader.getProgram(url: link,
-                                                            handle: try FileHandle(forReadingFrom: link),
-                                                            bottle: self) {
+                if let program = ShellLinkHeader.getProgram(
+                    url: link,
+                    handle: try FileHandle(forReadingFrom: link),
+                    bottle: self)
+                {
                     if !startMenuPrograms.contains(where: { $0.url == program.url }) {
                         startMenuPrograms.append(program)
                         try FileManager.default.removeItem(at: link)
@@ -149,15 +155,17 @@ extension Bottle {
                 for index in 0..<bottle.settings.pins.count {
                     let pin = bottle.settings.pins[index]
                     if let url = pin.url {
-                        bottle.settings.pins[index].url = url.updateParentBottle(old: url,
-                                                                                 new: destination)
+                        bottle.settings.pins[index].url = url.updateParentBottle(
+                            old: url,
+                            new: destination)
                     }
                 }
 
                 for index in 0..<bottle.settings.blocklist.count {
                     let blockedUrl = bottle.settings.blocklist[index]
-                    bottle.settings.blocklist[index] = blockedUrl.updateParentBottle(old: url,
-                                                                                     new: destination)
+                    bottle.settings.blocklist[index] = blockedUrl.updateParentBottle(
+                        old: url,
+                        new: destination)
                 }
             }
             try FileManager.default.moveItem(at: url, to: destination)
@@ -206,9 +214,10 @@ extension Bottle {
     @MainActor private func showRunError(message: String) {
         let alert = NSAlert()
         alert.messageText = String(localized: "alert.message")
-        alert.informativeText = String(localized: "alert.info")
-        + " \(self.url.lastPathComponent): "
-        + message
+        alert.informativeText =
+            String(localized: "alert.info")
+            + " \(self.url.lastPathComponent): "
+            + message
         alert.alertStyle = .critical
         alert.addButton(withTitle: String(localized: "button.ok"))
         alert.runModal()

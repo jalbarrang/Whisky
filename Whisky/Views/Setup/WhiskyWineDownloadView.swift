@@ -43,14 +43,18 @@ struct WhiskyWineDownloadView: View {
                     ProgressView(value: fractionProgress, total: 1)
                     HStack {
                         HStack {
-                            Text(String(format: String(localized: "setup.whiskywine.progress"),
-                                        formatBytes(bytes: completedBytes),
-                                        formatBytes(bytes: totalBytes)))
-                            + Text(String(" "))
-                            + (shouldShowEstimate() ?
-                               Text(String(format: String(localized: "setup.whiskywine.eta"),
-                                           formatRemainingTime(remainingBytes: totalBytes - completedBytes)))
-                               : Text(String()))
+                            Text(
+                                String(
+                                    format: String(localized: "setup.whiskywine.progress"),
+                                    formatBytes(bytes: completedBytes),
+                                    formatBytes(bytes: totalBytes)))
+                                + Text(String(" "))
+                                + (shouldShowEstimate()
+                                    ? Text(
+                                        String(
+                                            format: String(localized: "setup.whiskywine.eta"),
+                                            formatRemainingTime(remainingBytes: totalBytes - completedBytes)))
+                                    : Text(String()))
                             Spacer()
                         }
                         .font(.subheadline)

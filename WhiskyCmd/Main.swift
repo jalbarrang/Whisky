@@ -27,16 +27,18 @@ import ArgumentParser
 struct Whisky: ParsableCommand {
     static let configuration = CommandConfiguration(
         abstract: "A CLI interface for Whisky.",
-        subcommands: [List.self,
-                      Create.self,
-                      Add.self,
-//                      Export.self,
-                      Delete.self,
-                      Remove.self,
-                      Run.self,
-                      Shellenv.self
-                      /*Install.self,
-                      Uninstall.self*/])
+        subcommands: [
+            List.self,
+            Create.self,
+            Add.self,
+            //                      Export.self,
+            Delete.self,
+            Remove.self,
+            Run.self,
+            Shellenv.self
+                /*Install.self,
+                Uninstall.self*/
+        ])
 }
 
 extension Whisky {
@@ -53,9 +55,11 @@ extension Whisky {
 
             var table = TextTable(columns: [nameCol, winVerCol, pathCol])
             for bottle in bottles {
-                table.addRow(values: [bottle.settings.name,
-                                      bottle.settings.windowsVersion.pretty(),
-                                      bottle.url.prettyPath()])
+                table.addRow(values: [
+                    bottle.settings.name,
+                    bottle.settings.windowsVersion.pretty(),
+                    bottle.url.prettyPath()
+                ])
             }
 
             print(table.render())
@@ -71,14 +75,15 @@ extension Whisky {
             let bottleURL = BottleData.defaultBottleDir.appending(path: UUID().uuidString)
 
             do {
-                try FileManager.default.createDirectory(atPath: bottleURL.path(percentEncoded: false),
-                                                        withIntermediateDirectories: true)
+                try FileManager.default.createDirectory(
+                    atPath: bottleURL.path(percentEncoded: false),
+                    withIntermediateDirectories: true)
                 let bottle = Bottle(bottleUrl: bottleURL, inFlight: true)
                 // Should allow customisation
                 bottle.settings.windowsVersion = .win10
                 bottle.settings.name = name
-//                try await Wine.changeWinVersion(bottle: bottle, win: winVersion)
-//                let wineVer = try await Wine.wineVersion()
+                //                try await Wine.changeWinVersion(bottle: bottle, win: winVersion)
+                //                let wineVer = try await Wine.wineVersion()
                 bottle.settings.wineVersion = SemanticVersion(0, 0, 0)
 
                 var bottlesList = BottleData()
@@ -109,7 +114,7 @@ extension Whisky {
         static let configuration = CommandConfiguration(abstract: "Export an existing bottle.")
 
         mutating func run() throws {
-//            print("Create a bottle")
+            //            print("Create a bottle")
         }
     }
 
@@ -139,8 +144,9 @@ extension Whisky {
     }
 
     struct Remove: ParsableCommand {
-        static let configuration = CommandConfiguration(abstract: "Remove an existing bottle from Whisky.",
-                                                        discussion: "This will not remove the bottle from disk.")
+        static let configuration = CommandConfiguration(
+            abstract: "Remove an existing bottle from Whisky.",
+            discussion: "This will not remove the bottle from disk.")
 
         @Argument var name: String
 

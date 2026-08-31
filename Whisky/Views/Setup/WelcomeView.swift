@@ -49,13 +49,15 @@ struct WelcomeView: View {
             .padding(.horizontal)
             Spacer()
             Form {
-                InstallStatusView(isInstalled: $rosettaInstalled,
-                                  shouldCheckInstallStatus: $shouldCheckInstallStatus,
-                                  name: "Rosetta")
-                InstallStatusView(isInstalled: $whiskyWineInstalled,
-                                  shouldCheckInstallStatus: $shouldCheckInstallStatus,
-                                  showUninstall: true,
-                                  name: "WhiskyWine")
+                InstallStatusView(
+                    isInstalled: $rosettaInstalled,
+                    shouldCheckInstallStatus: $shouldCheckInstallStatus,
+                    name: "Rosetta")
+                InstallStatusView(
+                    isInstalled: $whiskyWineInstalled,
+                    shouldCheckInstallStatus: $shouldCheckInstallStatus,
+                    showUninstall: true,
+                    name: "WhiskyWine")
             }
             .formStyle(.grouped)
             .scrollDisabled(true)
@@ -68,7 +70,8 @@ struct WelcomeView: View {
             Spacer()
             HStack {
                 if let rosettaInstalled = rosettaInstalled,
-                   let whiskyWineInstalled = whiskyWineInstalled {
+                    let whiskyWineInstalled = whiskyWineInstalled
+                {
                     if !rosettaInstalled || !whiskyWineInstalled {
                         Button("setup.quit") {
                             exit(0)

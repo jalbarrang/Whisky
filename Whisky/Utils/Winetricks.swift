@@ -46,17 +46,21 @@ class Winetricks {
         .appending(path: "winetricks")
 
     static func runCommand(command: String, bottle: Bottle) async {
-        guard let resourcesURL = Bundle.main.url(forResource: "cabextract", withExtension: nil)?
-            .deletingLastPathComponent() else { return }
-        // swiftlint:disable:next line_length
-        let winetricksCmd = #"PATH=\"\#(WhiskyWineInstaller.binFolder.path):\#(resourcesURL.path(percentEncoded: false)):$PATH\" WINE=wine64 WINEPREFIX=\"\#(bottle.url.path)\" \"\#(winetricksURL.path(percentEncoded: false))\" \#(command)"#
+        guard
+            let resourcesURL = Bundle.main.url(forResource: "cabextract", withExtension: nil)?
+                .deletingLastPathComponent()
+        else { return }
+        // swiftlint:disable line_length
+        let winetricksCmd =
+            #"PATH=\"\#(WhiskyWineInstaller.binFolder.path):\#(resourcesURL.path(percentEncoded: false)):$PATH\" WINE=wine64 WINEPREFIX=\"\#(bottle.url.path)\" \"\#(winetricksURL.path(percentEncoded: false))\" \#(command)"#
+        // swiftlint:enable line_length
 
         let script = """
-        tell application "Terminal"
-            activate
-            do script "\(winetricksCmd)"
-        end tell
-        """
+            tell application "Terminal"
+                activate
+                do script "\(winetricksCmd)"
+            end tell
+            """
 
         var error: NSDictionary?
         if let appleScript = NSAppleScript(source: script) {
@@ -68,7 +72,8 @@ class Winetricks {
                     await MainActor.run {
                         let alert = NSAlert()
                         alert.messageText = String(localized: "alert.message")
-                        alert.informativeText = String(localized: "alert.info")
+                        alert.informativeText =
+                            String(localized: "alert.info")
                             + " \(command): "
                             + description
                         alert.alertStyle = .critical
@@ -109,8 +114,9 @@ class Winetricks {
                 // Capitalize the first letter of the category name
                 let categoryName = line.replacingOccurrences(of: "=====", with: "").trimmingCharacters(in: .whitespaces)
                 if let cateogry = WinetricksCategories(rawValue: categoryName) {
-                    currentCategory = WinetricksCategory(category: cateogry,
-                                                         verbs: [])
+                    currentCategory = WinetricksCategory(
+                        category: cateogry,
+                        verbs: [])
                 } else {
                     currentCategory = nil
                 }

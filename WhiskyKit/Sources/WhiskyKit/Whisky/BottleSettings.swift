@@ -98,15 +98,14 @@ public struct BottleWineConfig: Codable, Equatable {
 
     public init() {}
 
-    // swiftlint:disable line_length
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.wineVersion = try container.decodeIfPresent(SemanticVersion.self, forKey: .wineVersion) ?? Self.defaultWineVersion
+        self.wineVersion =
+            try container.decodeIfPresent(SemanticVersion.self, forKey: .wineVersion) ?? Self.defaultWineVersion
         self.windowsVersion = try container.decodeIfPresent(WinVersion.self, forKey: .windowsVersion) ?? .win10
         self.enhancedSync = try container.decodeIfPresent(EnhancedSync.self, forKey: .enhancedSync) ?? .msync
         self.avxEnabled = try container.decodeIfPresent(Bool.self, forKey: .avxEnabled) ?? false
     }
-    // swiftlint:enable line_length
 }
 
 public struct BottleMetalConfig: Codable, Equatable {
@@ -159,16 +158,18 @@ public struct BottleSettings: Codable, Equatable {
         self.dxvkConfig = BottleDXVKConfig()
     }
 
-    // swiftlint:disable line_length
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.fileVersion = try container.decodeIfPresent(SemanticVersion.self, forKey: .fileVersion) ?? Self.defaultFileVersion
+        self.fileVersion =
+            try container.decodeIfPresent(SemanticVersion.self, forKey: .fileVersion) ?? Self.defaultFileVersion
         self.info = try container.decodeIfPresent(BottleInfo.self, forKey: .info) ?? BottleInfo()
-        self.wineConfig = try container.decodeIfPresent(BottleWineConfig.self, forKey: .wineConfig) ?? BottleWineConfig()
-        self.metalConfig = try container.decodeIfPresent(BottleMetalConfig.self, forKey: .metalConfig) ?? BottleMetalConfig()
-        self.dxvkConfig = try container.decodeIfPresent(BottleDXVKConfig.self, forKey: .dxvkConfig) ?? BottleDXVKConfig()
+        self.wineConfig =
+            try container.decodeIfPresent(BottleWineConfig.self, forKey: .wineConfig) ?? BottleWineConfig()
+        self.metalConfig =
+            try container.decodeIfPresent(BottleMetalConfig.self, forKey: .metalConfig) ?? BottleMetalConfig()
+        self.dxvkConfig =
+            try container.decodeIfPresent(BottleDXVKConfig.self, forKey: .dxvkConfig) ?? BottleDXVKConfig()
     }
-    // swiftlint:enable line_length
 
     /// The name of this bottle
     public var name: String {
@@ -236,7 +237,7 @@ public struct BottleSettings: Codable, Equatable {
     }
 
     public var dxvkHud: DXVKHUD {
-        get {  return dxvkConfig.dxvkHud }
+        get { return dxvkConfig.dxvkHud }
         set { dxvkConfig.dxvkHud = newValue }
     }
 

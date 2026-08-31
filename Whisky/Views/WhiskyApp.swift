@@ -28,9 +28,10 @@ struct WhiskyApp: App {
     private let updaterController: SPUStandardUpdaterController
 
     init() {
-        updaterController = SPUStandardUpdaterController(startingUpdater: true,
-                                                         updaterDelegate: nil,
-                                                         userDriverDelegate: nil)
+        updaterController = SPUStandardUpdaterController(
+            startingUpdater: true,
+            updaterDelegate: nil,
+            userDriverDelegate: nil)
     }
 
     var body: some Scene {
@@ -92,7 +93,7 @@ struct WhiskyApp: App {
                 }
                 .keyboardShortcut("K", modifiers: [.command, .shift])
                 Button("wine.clearShaderCaches") {
-                    WhiskyApp.killBottles() // Better not make things more complicated for ourselves
+                    WhiskyApp.killBottles()  // Better not make things more complicated for ourselves
                     WhiskyApp.wipeShaderCaches()
                 }
             }
@@ -136,9 +137,11 @@ struct WhiskyApp: App {
     static func deleteOldLogs() {
         let pastDate = Date().addingTimeInterval(-7 * 24 * 60 * 60)
 
-        guard let urls = try? FileManager.default.contentsOfDirectory(
-            at: Wine.logsFolder,
-            includingPropertiesForKeys: [.creationDateKey]) else {
+        guard
+            let urls = try? FileManager.default.contentsOfDirectory(
+                at: Wine.logsFolder,
+                includingPropertiesForKeys: [.creationDateKey])
+        else {
             return
         }
 
@@ -177,7 +180,7 @@ struct WhiskyApp: App {
             return
         }
         getconf.waitUntilExit()
-        let getconfOutput = {() -> Data in
+        let getconfOutput = { () -> Data in
             if #available(macOS 10.15, *) {
                 do {
                     return try pipe.fileHandleForReading.readToEnd() ?? Data()
@@ -188,7 +191,7 @@ struct WhiskyApp: App {
                 return pipe.fileHandleForReading.readDataToEndOfFile()
             }
         }()
-        guard let getconfOutputString = String(data: getconfOutput, encoding: .utf8) else {return}
+        guard let getconfOutputString = String(data: getconfOutput, encoding: .utf8) else { return }
         let d3dmPath = URL(fileURLWithPath: getconfOutputString.trimmingCharacters(in: .whitespacesAndNewlines))
             .appending(path: "d3dm").path
         do {

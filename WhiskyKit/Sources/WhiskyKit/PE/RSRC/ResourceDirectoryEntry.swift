@@ -22,7 +22,7 @@ import Foundation
 ///
 /// https://learn.microsoft.com/en-us/windows/win32/debug/pe-format#resource-directory-entries
 public enum ResourceDirectoryEntry {
-    public struct ID { // swiftlint:disable:this type_name
+    public struct ID {  // swiftlint:disable:this type_name
         public let type: ResourceType
         private let rawOffset: UInt32
 

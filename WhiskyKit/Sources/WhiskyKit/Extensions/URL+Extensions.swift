@@ -20,8 +20,10 @@ import Foundation
 
 extension String {
     public var esc: String {
-        let esc = ["\\", "\"", "'", " ", "(", ")", "[", "]", "{", "}", "&", "|",
-                   ";", "<", ">", "`", "$", "!", "*", "?", "#", "~", "="]
+        let esc = [
+            "\\", "\"", "'", " ", "(", ")", "[", "]", "{", "}", "&", "|",
+            ";", "<", ">", "`", "$", "!", "*", "?", "#", "~", "="
+        ]
         var str = self
         for char in esc {
             str = str.replacingOccurrences(of: char, with: "\\" + char)
@@ -37,7 +39,8 @@ extension URL {
 
     public func prettyPath() -> String {
         var prettyPath = path(percentEncoded: false)
-        prettyPath = prettyPath
+        prettyPath =
+            prettyPath
             .replacingOccurrences(of: Bundle.main.bundleIdentifier ?? Bundle.whiskyBundleIdentifier, with: "Whisky")
             .replacingOccurrences(of: "/Users/\(NSUserName())", with: "~")
         return prettyPath
@@ -46,7 +49,8 @@ extension URL {
     // NOT to be used for logic only as UI decoration
     public func prettyPath(_ bottle: Bottle) -> String {
         var prettyPath = path(percentEncoded: false)
-        prettyPath = prettyPath
+        prettyPath =
+            prettyPath
             .replacingOccurrences(of: bottle.url.path(percentEncoded: false), with: "")
             .replacingOccurrences(of: "/drive_c/", with: "C:\\")
             .replacingOccurrences(of: "/", with: "\\")
@@ -67,8 +71,9 @@ extension URL {
             newBottlePath += "/"
         }
 
-        let newPath = originalPath.replacingOccurrences(of: oldBottlePath,
-                                                        with: newBottlePath)
+        let newPath = originalPath.replacingOccurrences(
+            of: oldBottlePath,
+            with: newBottlePath)
         return URL(filePath: newPath)
     }
 }

@@ -25,7 +25,7 @@ extension FileHandle {
         do {
             try self.seek(toOffset: offset)
             if let data = try self.read(upToCount: MemoryLayout<T>.size) {
-                return data.withUnsafeBytes { $0.loadUnaligned(as: T.self)}
+                return data.withUnsafeBytes { $0.loadUnaligned(as: T.self) }
             } else {
                 return nil
             }
@@ -43,17 +43,16 @@ extension FileHandle {
         }
     }
 
-    // swiftlint:disable line_length
     func writeApplicaitonInfo() {
         var header = String()
         let macOSVersion = ProcessInfo.processInfo.operatingSystemVersion
 
         header += "Whisky Version: \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] ?? "")\n"
         header += "Date: \(ISO8601DateFormatter().string(from: Date.now))\n"
-        header += "macOS Version: \(macOSVersion.majorVersion).\(macOSVersion.minorVersion).\(macOSVersion.patchVersion)\n\n"
+        header +=
+            "macOS Version: \(macOSVersion.majorVersion).\(macOSVersion.minorVersion).\(macOSVersion.patchVersion)\n\n"
         write(line: header)
     }
-    // swiftlint:enable line_length
 
     func writeInfo(for process: Process) {
         var header = String()

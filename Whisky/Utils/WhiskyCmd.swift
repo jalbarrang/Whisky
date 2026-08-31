@@ -26,8 +26,8 @@ class WhiskyCmd {
         if let whiskyCmdURL = whiskyCmdURL {
             // swiftlint:disable line_length
             let script = """
-            do shell script "ln -fs \(whiskyCmdURL.path(percentEncoded: false)) /usr/local/bin/whisky" with administrator privileges
-            """
+                do shell script "ln -fs \(whiskyCmdURL.path(percentEncoded: false)) /usr/local/bin/whisky" with administrator privileges
+                """
             // swiftlint:enable line_length
 
             var error: NSDictionary?
@@ -41,7 +41,8 @@ class WhiskyCmd {
                         await MainActor.run {
                             let alert = NSAlert()
                             alert.messageText = String(localized: "alert.message")
-                            alert.informativeText = String(localized: "alert.info")
+                            alert.informativeText =
+                                String(localized: "alert.info")
                                 + description
                             alert.alertStyle = .critical
                             alert.addButton(withTitle: String(localized: "button.ok"))
