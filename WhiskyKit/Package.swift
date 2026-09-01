@@ -31,12 +31,18 @@ let package = Package(
         )
     ],
     dependencies: [
-      .package(url: "git@github.com:SwiftPackageIndex/SemanticVersion.git", from: "0.3.0")
+      // HTTPS, not SSH: CI and fresh clones have no GitHub key, and the Xcode
+      // project already references this same package over HTTPS.
+      .package(url: "https://github.com/SwiftPackageIndex/SemanticVersion.git", from: "0.3.0")
     ],
     targets: [
         .target(
             name: "WhiskyKit",
             dependencies: ["SemanticVersion"]
+        ),
+        .testTarget(
+            name: "WhiskyKitTests",
+            dependencies: ["WhiskyKit"]
         )
     ],
     swiftLanguageVersions: [.version("6")]

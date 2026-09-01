@@ -56,11 +56,11 @@ extension Program {
         let wineCmd = generateTerminalCommand().replacingOccurrences(of: "\\", with: "\\\\")
 
         let script = """
-        tell application "Terminal"
-            activate
-            do script "\(wineCmd)"
-        end tell
-        """
+            tell application "Terminal"
+                activate
+                do script "\(wineCmd)"
+            end tell
+            """
 
         Task.detached(priority: .userInitiated) {
             var error: NSDictionary?
@@ -78,9 +78,10 @@ extension Program {
     @MainActor private func showRunError(message: String) {
         let alert = NSAlert()
         alert.messageText = String(localized: "alert.message")
-        alert.informativeText = String(localized: "alert.info")
-        + " \(self.url.lastPathComponent): "
-        + message
+        alert.informativeText =
+            String(localized: "alert.info")
+            + " \(self.url.lastPathComponent): "
+            + message
         alert.alertStyle = .critical
         alert.addButton(withTitle: String(localized: "button.ok"))
         alert.runModal()

@@ -33,8 +33,7 @@ public final class Bottle: ObservableObject, Equatable, Hashable, Identifiable, 
     public var isAvailable: Bool = false
 
     /// All pins with their associated programs
-    public var pinnedPrograms: [(pin: PinnedProgram, program: Program, // swiftlint:disable:this large_tuple
-                                 id: String)] {
+    public var pinnedPrograms: [(pin: PinnedProgram, program: Program, id: String)] {
         return settings.pins.compactMap { pin in
             let exists = FileManager.default.fileExists(atPath: pin.url?.path(percentEncoded: false) ?? "")
             guard let program = programs.first(where: { $0.url == pin.url && exists }) else { return nil }
@@ -53,7 +52,7 @@ public final class Bottle: ObservableObject, Equatable, Hashable, Identifiable, 
             self.settings = try BottleSettings.decode(from: metadataURL)
         } catch {
             Logger.wineKit.error(
-              "Failed to load settings for bottle `\(metadataURL.path(percentEncoded: false))`: \(error)"
+                "Failed to load settings for bottle `\(metadataURL.path(percentEncoded: false))`: \(error)"
             )
             self.settings = BottleSettings()
         }

@@ -1,0 +1,8 @@
+# Revisions to skip when running `git blame`, so a whole-repo reformat does not
+# claim authorship of every line. GitHub honours this file automatically.
+#
+# Locally, turn it on once with:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# style: adopt swift-format and split layout from lint rules
+0e4fe307de6280b2c89052b37debb83be608246e

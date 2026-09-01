@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "lineLength": 120,
+  "indentation": { "spaces": 4 },
+  "respectsExistingLineBreaks": true,
+  "prioritizeKeepingFunctionOutputTogether": true,
+  "lineBreakBeforeEachArgument": false,
+  "multiElementCollectionTrailingCommas": false,
+  "maximumBlankLines": 1,
+  "rules": {
+    "NoAccessLevelOnExtensionDeclaration": false,
+    "OrderedImports": false,
+    "AlwaysUseLowerCamelCase": false
+  }
+}

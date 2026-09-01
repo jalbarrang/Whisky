@@ -108,7 +108,7 @@ public class Wine {
             name: url.lastPathComponent,
             args: ["start", "/unix", url.path(percentEncoded: false)] + args,
             bottle: bottle, environment: environment
-        ) { }
+        ) {}
     }
 
     public static func generateRunCommand(
@@ -125,19 +125,19 @@ public class Wine {
 
     public static func generateTerminalEnvironmentCommand(bottle: Bottle) -> String {
         var cmd = """
-        export PATH=\"\(WhiskyWineInstaller.binFolder.path):$PATH\"
-        export WINE=\"wine64\"
-        alias wine=\"wine64\"
-        alias winecfg=\"wine64 winecfg\"
-        alias msiexec=\"wine64 msiexec\"
-        alias regedit=\"wine64 regedit\"
-        alias regsvr32=\"wine64 regsvr32\"
-        alias wineboot=\"wine64 wineboot\"
-        alias wineconsole=\"wine64 wineconsole\"
-        alias winedbg=\"wine64 winedbg\"
-        alias winefile=\"wine64 winefile\"
-        alias winepath=\"wine64 winepath\"
-        """
+            export PATH=\"\(WhiskyWineInstaller.binFolder.path):$PATH\"
+            export WINE=\"wine64\"
+            alias wine=\"wine64\"
+            alias winecfg=\"wine64 winecfg\"
+            alias msiexec=\"wine64 msiexec\"
+            alias regedit=\"wine64 regedit\"
+            alias regsvr32=\"wine64 regsvr32\"
+            alias wineboot=\"wine64 wineboot\"
+            alias wineconsole=\"wine64 wineconsole\"
+            alias winedbg=\"wine64 winedbg\"
+            alias winefile=\"wine64 winefile\"
+            alias winepath=\"wine64 winepath\"
+            """
 
         let env = constructWineEnvironment(for: bottle, environment: constructWineEnvironment(for: bottle))
         for environment in env {
@@ -312,10 +312,12 @@ extension Wine {
     }
 
     public static func changeBuildVersion(bottle: Bottle, version: Int) async throws {
-        try await addRegistryKey(bottle: bottle, key: RegistryKey.currentVersion.rawValue,
-                                name: "CurrentBuild", data: "\(version)", type: .string)
-        try await addRegistryKey(bottle: bottle, key: RegistryKey.currentVersion.rawValue,
-                                name: "CurrentBuildNumber", data: "\(version)", type: .string)
+        try await addRegistryKey(
+            bottle: bottle, key: RegistryKey.currentVersion.rawValue,
+            name: "CurrentBuild", data: "\(version)", type: .string)
+        try await addRegistryKey(
+            bottle: bottle, key: RegistryKey.currentVersion.rawValue,
+            name: "CurrentBuildNumber", data: "\(version)", type: .string)
     }
 
     public static func winVersion(bottle: Bottle) async throws -> WinVersion {
@@ -342,9 +344,11 @@ extension Wine {
 
     public static func retinaMode(bottle: Bottle) async throws -> Bool {
         let values: Set<String> = ["y", "n"]
-        guard let output = try await Wine.queryRegistryKey(
-            bottle: bottle, key: RegistryKey.macDriver.rawValue, name: "RetinaMode", type: .string
-        ), values.contains(output) else {
+        guard
+            let output = try await Wine.queryRegistryKey(
+                bottle: bottle, key: RegistryKey.macDriver.rawValue, name: "RetinaMode", type: .string
+            ), values.contains(output)
+        else {
             try await changeRetinaMode(bottle: bottle, retinaMode: false)
             return false
         }
@@ -359,9 +363,12 @@ extension Wine {
     }
 
     public static func dpiResolution(bottle: Bottle) async throws -> Int? {
-        guard let output = try await Wine.queryRegistryKey(bottle: bottle, key: RegistryKey.desktop.rawValue,
-                                                     name: "LogPixels", type: .dword
-        ) else { return nil }
+        guard
+            let output = try await Wine.queryRegistryKey(
+                bottle: bottle, key: RegistryKey.desktop.rawValue,
+                name: "LogPixels", type: .dword
+            )
+        else { return nil }
 
         let noPrefix = output.replacingOccurrences(of: "0x", with: "")
         let int = Int(noPrefix, radix: 16)

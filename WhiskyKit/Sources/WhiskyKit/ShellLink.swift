@@ -35,9 +35,10 @@ public struct ShellLinkHeader {
         }
 
         if linkFlags.contains(.hasLinkInfo) {
-            let linkInfo = LinkInfo(handle: handle,
-                                    bottle: bottle,
-                                    offset: &offset)
+            let linkInfo = LinkInfo(
+                handle: handle,
+                bottle: bottle,
+                offset: &offset)
             return linkInfo.program
         } else {
             return nil
@@ -79,19 +80,21 @@ public struct LinkInfo: Hashable {
                 let localBasePathOffsetUnicode = handle.extract(UInt32.self, offset: offset) ?? 0
                 let localPathOffset = startOfSection + UInt64(localBasePathOffsetUnicode)
 
-                program = getProgram(handle: handle,
-                                     offset: localPathOffset,
-                                     bottle: bottle,
-                                     unicode: true)
+                program = getProgram(
+                    handle: handle,
+                    offset: localPathOffset,
+                    bottle: bottle,
+                    unicode: true)
             } else {
                 offset += 8
                 let localBasePathOffset = handle.extract(UInt32.self, offset: offset) ?? 0
                 let localPathOffset = startOfSection + UInt64(localBasePathOffset)
 
-                program = getProgram(handle: handle,
-                                     offset: localPathOffset,
-                                     bottle: bottle,
-                                     unicode: false)
+                program = getProgram(
+                    handle: handle,
+                    offset: localPathOffset,
+                    bottle: bottle,
+                    unicode: false)
             }
         }
 

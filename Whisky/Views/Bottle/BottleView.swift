@@ -53,9 +53,9 @@ struct BottleView: View {
                     NavigationLink(value: BottleStage.config) {
                         Label("tab.config", systemImage: "gearshape")
                     }
-//                    NavigationLink(value: BottleStage.processes) {
-//                        Label("tab.processes", systemImage: "hockey.puck.circle")
-//                    }
+                    //                    NavigationLink(value: BottleStage.processes) {
+                    //                        Label("tab.processes", systemImage: "hockey.puck.circle")
+                    //                    }
                 }
                 .formStyle(.grouped)
                 .scrollDisabled(true)
@@ -77,9 +77,11 @@ struct BottleView: View {
                         panel.allowsMultipleSelection = false
                         panel.canChooseDirectories = false
                         panel.canChooseFiles = true
-                        panel.allowedContentTypes = [UTType.exe,
-                                                     UTType(exportedAs: "com.microsoft.msi-installer"),
-                                                     UTType(exportedAs: "com.microsoft.bat")]
+                        panel.allowedContentTypes = [
+                            UTType.exe,
+                            UTType(exportedAs: "com.microsoft.msi-installer"),
+                            UTType(exportedAs: "com.microsoft.bat")
+                        ]
                         panel.directoryURL = bottle.url.appending(path: "drive_c")
                         panel.begin { result in
                             programLoading = true
@@ -150,15 +152,18 @@ struct BottleView: View {
 
         let startMenuPrograms = bottle.getStartMenuPrograms()
         for startMenuProgram in startMenuPrograms {
-            for program in bottle.programs where
-            // For some godforsaken reason "foo/bar" != "foo/Bar" so...
-            program.url.path().caseInsensitiveCompare(startMenuProgram.url.path()) == .orderedSame {
+            for program in bottle.programs
+            where
+                // For some godforsaken reason "foo/bar" != "foo/Bar" so...
+                program.url.path().caseInsensitiveCompare(startMenuProgram.url.path()) == .orderedSame
+            {
                 program.pinned = true
                 guard !bottle.settings.pins.contains(where: { $0.url == program.url }) else { return }
-                bottle.settings.pins.append(PinnedProgram(
-                    name: program.url.deletingPathExtension().lastPathComponent,
-                    url: program.url
-                ))
+                bottle.settings.pins.append(
+                    PinnedProgram(
+                        name: program.url.deletingPathExtension().lastPathComponent,
+                        url: program.url
+                    ))
             }
         }
     }

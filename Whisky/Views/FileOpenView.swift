@@ -80,8 +80,9 @@ struct FileOpenView: View {
             Task.detached(priority: .userInitiated) {
                 do {
                     if fileURL.pathExtension == "bat" {
-                        try await Wine.runBatchFile(url: fileURL,
-                                                    bottle: bottle)
+                        try await Wine.runBatchFile(
+                            url: fileURL,
+                            bottle: bottle)
                     } else {
                         try await Wine.runProgram(at: fileURL, bottle: bottle)
                     }
